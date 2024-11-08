@@ -166,6 +166,10 @@ for file in params_grib2_tbl_new nam_micro_lookup.dat
 do
   ${LINK_OR_COPY} "${HOMEgfs}/sorc/upp.fd/parm/${file}" .
 done
+for dir in gfs gefs
+do
+  ${LINK_OR_COPY} "${HOMEgfs}/sorc/upp.fd/parm/${dir}" .
+done
 for file in ice.csv ocean.csv ocnicepost.nml.jinja2
 do
   ${LINK_OR_COPY} "${HOMEgfs}/sorc/gfs_utils.fd/parm/ocnicepost/${file}" .
