@@ -36,3 +36,5 @@
 :TSNOWP:surface:
 :FDNSSTMP:surface:
 :HGT:highest tropospheric freezing level:
+:MAXUW:10 m above ground:
+:MAXVW:10 m above ground:
