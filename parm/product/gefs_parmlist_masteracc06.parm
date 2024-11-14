@@ -14,7 +14,7 @@
 :PRATE:surface:0
 :CPRAT:surface:0
 :ALBDO:surface
-:TCDC:entire
+:TCDC:entire atmosphere (considered as a single layer):0-6
 :TCDC:boundary
 :HCDC:high cloud layer:0-6
 :MCDC:middle cloud layer:0-6
