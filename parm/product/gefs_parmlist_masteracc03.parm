@@ -15,7 +15,7 @@
 :GFLUX
 :U-GWD
 :V-GWD
-:TCDC:entire
+:TCDC:entire atmosphere (considered as a single layer):182-185 min
 :TCDC:boundary
 :HCDC:high cloud layer:182-185 min
 :LCDC:low cloud layer:182-185 min
