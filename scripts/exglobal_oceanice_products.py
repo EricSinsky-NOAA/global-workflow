@@ -21,9 +21,11 @@ def main():
     keys = ['HOMEgfs', 'DATA', 'current_cycle', 'RUN', 'NET',
             f'COM_{oceanice.task_config.component.upper()}_HISTORY',
             f'COM_{oceanice.task_config.component.upper()}_GRIB',
+            f'COM_{oceanice.task_config.component.upper()}_NETCDF',
             'APRUN_OCNICEPOST',
             'component', 'forecast_hour', 'valid_datetime', 'avg_period',
-            'model_grid', 'product_grids', 'oceanice_yaml']
+            'model_grid', 'product_grids', 'oceanice_yaml',
+            'DO_OCNICE_COMPRESS']
     oceanice_dict = AttrDict()
     for key in keys:
         oceanice_dict[key] = oceanice.task_config[key]

@@ -14,7 +14,8 @@ from wxflow import (AttrDict,
                     Task,
                     add_to_datetime, to_timedelta,
                     WorkflowException,
-                    Executable)
+                    Executable,
+                    which)
 
 logger = getLogger(__name__.split('.')[-1])
 
@@ -342,3 +343,14 @@ class OceanIceProducts(Task):
 
         logger.info(f"Copy processed data to COM/ directory")
         FileHandler(data_out).sync()
+
+        # Compress netcdf products
+        if config.DO_OCNICE_COMPRESS:
+            logger.info(f"Compress processed data in COM/ directory")
+            gzip_cmd = which("/usr/bin/gzip")
+            gzip_cmd.add_default_arg("-kf")
+            if config.component == "ocean":
+                interpfile = config.COM_OCEAN_NETCDF + f"/0p25/gefs.{config.component}.t00z.0p25.f{config.forecast_hour:03d}.nc"
+            if config.component == "ice":
+                interpfile = config.COM_ICE_NETCDF + f"/0p25/gefs.{config.component}.t00z.0p25.f{config.forecast_hour:03d}.nc"
+            gzip_cmd(interpfile)
