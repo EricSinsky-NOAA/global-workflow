@@ -13,6 +13,12 @@ gefs_ocean:
     {% do members.append("mem" ~ '%03d' % mem_nm ) %}
 {% endfor %}
 
+{% if DO_OCNICE_COMPRESS %}
+    {% set fileext = ".nc.gz" %}
+{% else %}
+    {% set fileext = ".nc" %}
+{% endif %}
+
 {% set res = (OCNRES|string())[0] ~ "p" ~ (OCNRES|string())[-2:] %}
 
 {% for mem in members %}
@@ -28,7 +34,7 @@ gefs_ocean:
     {% set netcdf_grid_dir = COMIN_OCEAN_NETCDF ~ "/" ~ res %}
     {% if path_exists(netcdf_grid_dir) %}
         {% for fhr in range(FHMIN_GFS + FHOUT_OCN_GFS, FHMAX_GFS + FHOUT_OCN_GFS, FHOUT_OCN_GFS) %}
-            {% set file_name = head ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".nc" %}
+            {% set file_name = head ~ res ~ ".f" ~ '%03d'|format(fhr) ~ fileext %}
             {% set file_path = netcdf_grid_dir ~ "/" ~ file_name %}
             - "{{ file_path | relpath(ROTDIR)}}"
         {% endfor %}
