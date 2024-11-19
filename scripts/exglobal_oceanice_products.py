@@ -26,29 +26,36 @@ def main():
             'component', 'forecast_hour', 'valid_datetime', 'avg_period',
             'model_grid', 'product_grids', 'oceanice_yaml',
             'DO_OCNICE_COMPRESS']
+
     oceanice_dict = AttrDict()
+
     for key in keys:
         oceanice_dict[key] = oceanice.task_config[key]
 
-    # Initialize the DATA/ directory; copy static data
-    oceanice.initialize(oceanice_dict)
+    if oceanice.task_config.do_interp:
 
-    for grid in oceanice_dict.product_grids:
+        # Initialize the DATA/ directory; copy static data
+        oceanice.initialize(oceanice_dict)
 
-        logger.info(f"Processing {grid} grid")
+        for grid in oceanice_dict.product_grids:
 
-        # Configure DATA/ directory for execution; prepare namelist etc.
-        oceanice.configure(oceanice_dict, grid)
+            logger.info(f"Processing {grid} grid")
 
-        # Run the oceanice post executable to interpolate and create grib2 files
-        oceanice.execute(oceanice_dict, grid)
+            # Configure DATA/ directory for execution; prepare namelist etc.
+            oceanice.configure(oceanice_dict, grid)
 
-    # Subset raw model data to create netCDF products
-    oceanice.subset(oceanice_dict)
+            # Run the oceanice post executable to interpolate and create grib2 files
+            oceanice.execute(oceanice_dict, grid)
 
-    # Copy processed output from execute and subset
-    oceanice.finalize(oceanice_dict)
+        # Subset raw model data to create netCDF products
+        oceanice.subset(oceanice_dict)
 
+        # Copy processed output from execute and subset
+        oceanice.finalize(oceanice_dict)
+
+    # Compress ocean and ice data
+    if oceanice_dict.DO_OCNICE_COMPRESS:
+        oceanice.compress(oceanice_dict)
 
 if __name__ == '__main__':
     main()

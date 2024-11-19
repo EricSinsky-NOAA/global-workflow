@@ -62,8 +62,10 @@ class OceanIceProducts(Task):
         forecast_hour = self.task_config.FORECAST_HOUR
         if self.task_config.COMPONENT == 'ice':
             interval = self.task_config.FHOUT_ICE_GFS
+            do_interp = self.task_config.DO_ICE_INTERP
         if self.task_config.COMPONENT == 'ocean':
             interval = self.task_config.FHOUT_OCN_GFS
+            do_interp = self.task_config.DO_OCN_INTERP
 
         # TODO: This is a bit of a hack, but it works for now
         # FIXME: find a better way to provide the averaging period
@@ -77,6 +79,7 @@ class OceanIceProducts(Task):
              'avg_period': avg_period,
              'model_grid': model_grid,
              'interval': interval,
+             'do_interp': do_interp,
              'product_grids': self.VALID_PRODUCT_GRIDS[model_grid]}
         )
         self.task_config = AttrDict(**self.task_config, **localdict)
@@ -344,13 +347,27 @@ class OceanIceProducts(Task):
         logger.info(f"Copy processed data to COM/ directory")
         FileHandler(data_out).sync()
 
-        # Compress netcdf products
-        if config.DO_OCNICE_COMPRESS:
-            logger.info(f"Compress processed data in COM/ directory")
-            gzip_cmd = which("/usr/bin/gzip")
-            gzip_cmd.add_default_arg("-kf")
-            if config.component == "ocean":
-                interpfile = config.COM_OCEAN_NETCDF + f"/0p25/gefs.{config.component}.t00z.0p25.f{config.forecast_hour:03d}.nc"
-            if config.component == "ice":
-                interpfile = config.COM_ICE_NETCDF + f"/0p25/gefs.{config.component}.t00z.0p25.f{config.forecast_hour:03d}.nc"
-            gzip_cmd(interpfile)
+    @staticmethod
+    @logit(logger)
+    def compress(config: Dict) -> None:
+        """Perform compression at the end of the task.
+        Perform compression to individual files in COM/
+
+        Parameters
+        ----------
+        config: Dict
+            Configuration dictionary for the task
+
+        Returns
+        -------
+        None
+        """
+
+        logger.info(f"Compress processed data in COM/ directory")
+        gzip_cmd = which("/usr/bin/gzip")
+        gzip_cmd.add_default_arg("-kf")
+        if config.component == 'ocean':
+            interpfile = config.COM_OCEAN_NETCDF + f"/0p25/gefs.{config.component}.t00z.0p25.f{config.forecast_hour:03d}.nc"
+        if config.component == 'ice':
+            interpfile = config.COM_ICE_HISTORY + f"/gefs.{config.component}.t00z.24hr_avg.f{config.forecast_hour:03d}.nc"
+        gzip_cmd(interpfile)
