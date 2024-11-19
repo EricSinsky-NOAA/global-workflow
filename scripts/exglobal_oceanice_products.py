@@ -57,5 +57,6 @@ def main():
     if oceanice_dict.DO_OCNICE_COMPRESS:
         oceanice.compress(oceanice_dict)
 
+
 if __name__ == '__main__':
     main()
