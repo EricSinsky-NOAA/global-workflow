@@ -25,7 +25,7 @@ fi
 # Retain files needed by Fit2Obs
 last_date=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${RMOLDEND:-24} hours")
 first_date=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${RMOLDSTD:-120} hours")
-last_rtofs=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${RMOLDRTOFS:-48} hours")
+last_gefs=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${RMOLDRTOFS:-48} hours")
 function remove_files() {
     local directory=$1
     shift
@@ -53,21 +53,21 @@ for (( current_date=first_date; current_date <= last_date; \
   current_date=$(date --utc +%Y%m%d%H -d "${current_date:0:8} ${current_date:8:2} +${assim_freq} hours") )); do
     current_PDY="${current_date:0:8}"
     current_cyc="${current_date:8:2}"
-    rtofs_dir="${ROTDIR}/rtofs.${current_PDY}"
+    gefs_dir="${ROTDIR}/gefs.${current_PDY}"
     rocotolog="${EXPDIR}/logs/${current_date}.log"
-    if [[ -f "${rocotolog}" ]]; then
+#    if [[ -f "${rocotolog}" ]]; then
         # TODO: This needs to be revamped to not look at the rocoto log.
         # shellcheck disable=SC2312
-        if [[ $(tail -n 1 "${rocotolog}") =~ "This cycle is complete: Success" ]]; then
+#        if [[ $(tail -n 1 "${rocotolog}") =~ "This cycle is complete: Success" ]]; then
             YMD="${current_PDY}" HH="${current_cyc}" declare_from_tmpl \
                 COMOUT_TOP:COM_TOP_TMPL
             if [[ -d "${COMOUT_TOP}" ]]; then
                 IFS=", " read -r -a exclude_list <<< "${exclude_string:-}"
                 remove_files "${COMOUT_TOP}" "${exclude_list[@]:-}"
             fi
-            if [[ -d "${rtofs_dir}" ]] && (( current_date < last_rtofs )); then rm -rf "${rtofs_dir}" ; fi
-        fi
-    fi
+            if [[ -d "${gefs_dir}" ]] && (( current_date < last_gefs )); then rm -rf "${gefs_dir}" ; fi
+#        fi
+#    fi
 
     # Remove mdl gfsmos directory
     if [[ "${RUN}" == "gfs" ]]; then
@@ -98,13 +98,13 @@ if [[ "${RUN}" == "gfs" ]]; then
 fi
 
 # Remove $RUN.$rPDY for the older of GDATE or RDATE
-GDATE=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${RMOLDSTD:-120} hours")
-RDATE=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${FHMAX_GFS} hours")
-if (( GDATE < RDATE )); then
-    RDATE=${GDATE}
-fi
-deletion_target="${ROTDIR}/${RUN}.${RDATE:0:8}"
-if [[ -d ${deletion_target} ]]; then rm -rf "${deletion_target}"; fi
+#GDATE=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${RMOLDSTD:-120} hours")
+#RDATE=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${FHMAX_GFS} hours")
+#if (( GDATE < RDATE )); then
+#    RDATE=${GDATE}
+#fi
+#deletion_target="${ROTDIR}/${RUN}.${RDATE:0:8}"
+#if [[ -d ${deletion_target} ]]; then rm -rf "${deletion_target}"; fi
 
 # sync and wait to avoid filesystem synchronization issues
 sync && sleep 1
