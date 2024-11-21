@@ -82,7 +82,6 @@ class GEFSAppConfig(AppConfig):
             tasks += ['wavepostsbs']
             if self.do_wave_bnd:
                 tasks += ['wavepostbndpnt', 'wavepostbndpntbll']
-            tasks += ['wavepostpnt']
 
         if self.do_extractvars:
             tasks += ['extractvars', 'arch']
