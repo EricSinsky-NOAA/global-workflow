@@ -9,8 +9,8 @@ source "${EXPDIR}/config.resources" cleanup
 export CLEANUP_COM="YES"   # NO=retain ROTDIR.  YES default in cleanup.sh
 
 #--starting and ending hours of previous cycles to be removed from rotating directory
-export RMOLDSTD=6
-export RMOLDEND=0
+export RMOLDSTD=144
+export RMOLDEND=24
 
 if [[ "${DO_GEMPAK}" == "YES" ]]; then
     export RMOLDSTD=346
@@ -21,7 +21,7 @@ fi
 # Because arrays cannot be exported, list is a single string of comma-
 # separated values. This string is split to form an array at runtime.
 case ${RUN} in
-	gdas | gfs | gefs)	exclude_string="*prepbufr*, *cnvstat*, *atmanl.nc" ;;
+	gdas | gfs)	exclude_string="*prepbufr*, *cnvstat*, *atmanl.nc" ;;
 	enkf*)      exclude_string="*f006.ens*" ;;
 	*)			exclude_string="" ;;
 esac
