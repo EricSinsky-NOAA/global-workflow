@@ -47,8 +47,8 @@ if [[ -z ${SUDO_USER} ]]; then
   export STMP="/lfs/h3/emc/gefstemp/stmp/${USER}/stmp"
   export PTMP="/lfs/h3/emc/gefstemp/ptmp/${USER}/ptmp"
 else
-  export STMP="/lfs/h3/emc/gefstemp/${SUDO_USER}/${USER}/stmp"
-  export PTMP="/lfs/h2/emc/gefstemp/${SUDO_USER}/${USER}/ptmp"
+  export STMP="/lfs/h3/emc/gefstemp/${USER}/${SUDO_USER}/stmp"
+  export PTMP="/lfs/h2/emc/gefstemp/${USER}/${SUDO_USER}/ptmp"
 fi
 
 export NOSCRUB="@NOSCRUB@"
