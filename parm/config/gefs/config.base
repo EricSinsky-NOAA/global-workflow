@@ -41,8 +41,16 @@ export COMINsyn="@COMINsyn@"
 
 # USER specific paths
 export HOMEDIR="@HOMEDIR@"
-export STMP="@STMP@"
-export PTMP="@PTMP@"
+
+SUDO_USER=${SUDO_USER:-""}
+if [[ -z ${SUDO_USER} ]]; then
+  export STMP="/lfs/h3/emc/gefstemp/stmp/${USER}/stmp"
+  export PTMP="/lfs/h3/emc/gefstemp/ptmp/${USER}/ptmp"
+else
+  export STMP="/lfs/h3/emc/gefstemp/${SUDO_USER}/${USER}/stmp"
+  export PTMP="/lfs/h2/emc/gefstemp/${SUDO_USER}/${USER}/ptmp"
+fi
+
 export NOSCRUB="@NOSCRUB@"
 
 # Base directories for various builds
