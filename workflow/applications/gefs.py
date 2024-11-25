@@ -75,11 +75,13 @@ class GEFSAppConfig(AppConfig):
         if self.do_ocean:
             tasks += ['ocean_prod']
 
+        if self.do_ice:
+            tasks += ['ice_prod']
+
         if self.do_wave:
             tasks += ['wavepostsbs']
             if self.do_wave_bnd:
                 tasks += ['wavepostbndpnt', 'wavepostbndpntbll']
-            tasks += ['wavepostpnt']
 
         if self.do_extractvars:
             tasks += ['extractvars', 'arch']

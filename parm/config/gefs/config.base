@@ -41,8 +41,16 @@ export COMINsyn="@COMINsyn@"
 
 # USER specific paths
 export HOMEDIR="@HOMEDIR@"
-export STMP="@STMP@"
-export PTMP="@PTMP@"
+
+SUDO_USER=${SUDO_USER:-""}
+if [[ -z ${SUDO_USER} ]]; then
+  export STMP="/lfs/h3/emc/gefstemp/stmp/${USER}/stmp"
+  export PTMP="/lfs/h3/emc/gefstemp/ptmp/${USER}/ptmp"
+else
+  export STMP="/lfs/h3/emc/gefstemp/${USER}/${SUDO_USER}/stmp"
+  export PTMP="/lfs/h2/emc/gefstemp/${USER}/${SUDO_USER}/ptmp"
+fi
+
 export NOSCRUB="@NOSCRUB@"
 
 # Base directories for various builds
@@ -339,6 +347,10 @@ export HPSSICARCH="/NCEPDEV/emc-marine/2year/Neil.Barton/ICS/HR4/C384mx025" # IC
 
 export DO_DOWNLOAD_ANLY="YES" # Set to YES to download f03 replay analysis from AWS, set to NO to copy f03 analysis locally
 export ANLYDIR="" # f03 replay analysis directory on disk. May be left blank if DO_DOWNLOAD_ANLY is set to YES
+
+export DO_ICE_INTERP="NO" # Set to YES to perform ice post-processing in ice_prod task
+export DO_OCN_INTERP="YES" # Set to YES to perform ocean post-processing in ocean_prod task
+export DO_OCNICE_COMPRESS="YES" # Set to YES to compress ocean and ice products
 
 export DELETE_COM_IN_ARCHIVE_JOB="YES"   # NO=retain ROTDIR.  YES default in arch.sh and earc.sh.
 

@@ -13,6 +13,12 @@ gefs_ice:
     {% do members.append("mem" ~ '%03d' % mem_nm ) %}
 {% endfor %}
 
+{% if DO_OCNICE_COMPRESS %}
+    {% set fileext = ".nc.gz" %}
+{% else %}
+    {% set fileext = ".nc" %}
+{% endif %}
+
 {% for mem in members %}
     {% set tmpl_dict = ({ '${ROTDIR}':ROTDIR,
                           '${RUN}':RUN,
@@ -25,7 +31,7 @@ gefs_ice:
 # Select netcdf files to copy to the atardir
     {% if path_exists(COMIN_ICE_HISTORY) %}
         {% for fhr in range(FHMIN_GFS + FHOUT_ICE_GFS, FHMAX_GFS + FHOUT_ICE_GFS, FHOUT_ICE_GFS) %}
-            {% set file_name = head ~ FHOUT_ICE_GFS ~ "hr_avg" ~ ".f" ~ '%03d'|format(fhr) ~ ".nc" %}
+            {% set file_name = head ~ FHOUT_ICE_GFS ~ "hr_avg" ~ ".f" ~ '%03d'|format(fhr) ~ fileext %}
             {% set file_path = COMIN_ICE_HISTORY ~ "/" ~ file_name %}
             - "{{ file_path | relpath(ROTDIR)}}"
         {% endfor %}

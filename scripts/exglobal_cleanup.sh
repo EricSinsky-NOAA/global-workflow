@@ -103,8 +103,15 @@ RDATE=$(date --utc +%Y%m%d%H -d "${PDY} ${cyc} -${FHMAX_GFS} hours")
 if (( GDATE < RDATE )); then
     RDATE=${GDATE}
 fi
-deletion_target="${ROTDIR}/${RUN}.${RDATE:0:8}"
+
+# Delete ROTDIR data from current cycle
+deletion_target="${ROTDIR}/${RUN}.${PDY:0:8}"
 if [[ -d ${deletion_target} ]]; then rm -rf "${deletion_target}"; fi
+
+# Delete ROTDIR data from previous cycle
+PDYprevcyc=$(date --utc +%Y%m%d%H -d "${PDY} 00 -6 hours")
+deletion_target_prevcyc="${ROTDIR}/${RUN}.${PDYprevcyc:0:8}"
+if [[ -d ${deletion_target_prevcyc} ]]; then rm -rf "${deletion_target_prevcyc}"; fi
 
 # sync and wait to avoid filesystem synchronization issues
 sync && sleep 1
