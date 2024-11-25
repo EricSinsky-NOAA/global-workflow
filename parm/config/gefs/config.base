@@ -107,7 +107,7 @@ export PSLOT="@PSLOT@"
 export EXPDIR="@EXPDIR@/${PSLOT}"
 export ROTDIR="@COMROOT@/${PSLOT}"
 
-export ARCDIR="${NOSCRUB}/archive/${PSLOT}"
+export ARCDIR="${NOSCRUB}/archive"
 export ATARDIR="@ATARDIR@"
 
 # Commonly defined parameters in JJOBS
