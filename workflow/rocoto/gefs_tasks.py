@@ -581,8 +581,6 @@ class GEFSTasks(Tasks):
         if self.app_config.do_wave:
             dep_dict = {'type': 'metatask', 'name': 'gefs_wave_post_grid'}
             deps.append(rocoto.add_dependency(dep_dict))
-            dep_dict = {'type': 'metatask', 'name': 'gefs_wave_post_pnt'}
-            deps.append(rocoto.add_dependency(dep_dict))
             if self.app_config.do_wave_bnd:
                 dep_dict = {'type': 'metatask', 'name': 'gefs_wave_post_bndpnt'}
                 deps.append(rocoto.add_dependency(dep_dict))
