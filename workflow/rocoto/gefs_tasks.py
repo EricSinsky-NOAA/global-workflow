@@ -117,9 +117,7 @@ class GEFSTasks(Tasks):
     def repair_replay(self):
 
         deps = []
-        history_path = self._template_to_rocoto_cycstring(self._base["COM_ATMOS_MASTER_TMPL"], {'MEMDIR': 'mem#member#'})
-        data = f'{history_path}/{self.run}.t@Hz.master.grb2f006'
-        dep_dict = {'type': 'data', 'data': data}
+        dep_dict = {'type': 'metatask', 'name': 'gefs_fcst_mem#member#'}
         deps.append(rocoto.add_dependency(dep_dict))
 
         dependencies = rocoto.create_dependency(dep=deps)
@@ -582,8 +580,6 @@ class GEFSTasks(Tasks):
             deps.append(rocoto.add_dependency(dep_dict))
         if self.app_config.do_wave:
             dep_dict = {'type': 'metatask', 'name': 'gefs_wave_post_grid'}
-            deps.append(rocoto.add_dependency(dep_dict))
-            dep_dict = {'type': 'metatask', 'name': 'gefs_wave_post_pnt'}
             deps.append(rocoto.add_dependency(dep_dict))
             if self.app_config.do_wave_bnd:
                 dep_dict = {'type': 'metatask', 'name': 'gefs_wave_post_bndpnt'}

@@ -557,7 +557,7 @@ FV3_predet(){
       export e1=3
     fi
     export e2=${memnum}
-    export e3=10
+    export e3=${NMEM_ENS}
 
   fi
 }

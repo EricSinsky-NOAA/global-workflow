@@ -199,7 +199,7 @@ case ${step} in
         declare -x "walltime"="03:00:00"
         ;;
       "C384" | "C768" | "C1152")
-        declare -x "walltime"="12:00:00"
+        declare -x "walltime"="10:30:00"
         ;;
       *)
         echo "FATAL ERROR: Resources not defined for job ${step} at resolution ${CASE}"
@@ -212,7 +212,7 @@ case ${step} in
 
 
   "atmos_products")
-    export walltime="15:00:00"
+    export walltime="5:00:00"
     export ntasks=24
     export threads_per_task=1
     export tasks_per_node="${ntasks}"
@@ -220,7 +220,7 @@ case ${step} in
     ;;
 
   "atmos_ensstat")
-    export walltime="15:00:00"
+    export walltime="2:00:00"
     export ntasks=6
     export threads_per_task=1
     export tasks_per_node="${ntasks}"
@@ -228,7 +228,7 @@ case ${step} in
     ;;
 
   "oceanice_products")
-    export walltime="15:00:00"
+    export walltime="3:00:00"
     export ntasks=1
     export tasks_per_node=1
     export threads_per_task=1
@@ -286,7 +286,7 @@ case ${step} in
     ;;
 
   "extractvars")
-    export walltime_gefs="15:00:00"
+    export walltime_gefs="2:00:00"
     export ntasks_gefs=1
     export threads_per_task_gefs=1
     export tasks_per_node_gefs="${ntasks_gefs}"
