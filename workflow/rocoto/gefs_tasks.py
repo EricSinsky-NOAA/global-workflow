@@ -570,8 +570,6 @@ class GEFSTasks(Tasks):
         deps = []
         dep_dict = {'type': 'metatask', 'name': 'gefs_atmos_prod'}
         deps.append(rocoto.add_dependency(dep_dict))
-        dep_dict = {'type': 'metatask', 'name': 'gefs_atmos_ensstat'}
-        deps.append(rocoto.add_dependency(dep_dict))
         if self.app_config.do_ocean:
             dep_dict = {'type': 'metatask', 'name': 'gefs_ocean_prod'}
             deps.append(rocoto.add_dependency(dep_dict))
