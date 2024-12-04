@@ -69,9 +69,6 @@ class GEFSAppConfig(AppConfig):
 
         tasks += ['atmos_prod']
 
-        if self.nens > 0:
-            tasks += ['atmos_ensstat']
-
         if self.do_ocean:
             tasks += ['ocean_prod']
 
