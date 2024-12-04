@@ -8,8 +8,8 @@ gefs_atmos:
     target: "{{ ATARDIR }}/{{ cycle_YMDH }}/gefs_atmos.tar"
     required:
 #select mem%03d and ensstat files required
-{% set members = ["ensstat"] %}
-{% for mem_nm in range(0, NMEM_ENS + 1) %}
+{% set members = ["mem000"] %}
+{% for mem_nm in range(1, NMEM_ENS + 1) %}
     {% do members.append("mem" ~ '%03d' % mem_nm ) %}
 {% endfor %}
 
@@ -34,59 +34,32 @@ gefs_atmos:
         {% if path_exists(COMIN_ATMOS_GRIB) %}
             {% if FHMAX_HF_GFS  == 0 %}
                 {% for fhr in range(ofst_hr, FHMAX_GFS + FHOUT_GFS, FHOUT_GFS) %}
-                    {% if mem=="ensstat" %}
-                        {% set file_name_mean = head ~ "mean.pres_." ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".grib2" %}
-                        {% set file_path_mean = COMIN_ATMOS_GRIB ~ "/" ~ file_name_mean %}
-                        - "{{ file_path_mean | relpath(ROTDIR)}}"
-                        {% set file_name_spread = head ~ "spread.pres_." ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".grib2" %}
-                        {% set file_path_spread = COMIN_ATMOS_GRIB ~ "/" ~ file_name_spread %}
-                        - "{{ file_path_spread | relpath(ROTDIR)}}"
-                    {% else %}
+                    {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
+                    {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
+                    - "{{ file_path | relpath(ROTDIR)}}"
+                    {% set file_name = head ~ "pgrb2b." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
+                    {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
+                    - "{{ file_path | relpath(ROTDIR)}}"
+                {% endfor %}
+            {% else %}
+                 {% if res == "0p25" %}
+                    {% for fhr in range(ofst_hr, FHMAX_HF_GFS + FHOUT_HF_GFS, FHOUT_HF_GFS) %}
                         {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
                         {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
                         - "{{ file_path | relpath(ROTDIR)}}"
                         {% set file_name = head ~ "pgrb2b." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
                         {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
                         - "{{ file_path | relpath(ROTDIR)}}"
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                 {% if res == "0p25" %}
-                    {% for fhr in range(ofst_hr, FHMAX_HF_GFS + FHOUT_HF_GFS, FHOUT_HF_GFS) %}
-                        {% if mem=="ensstat" %}
-                            {% set file_name_mean = head ~ "mean.pres_." ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".grib2" %}
-                            {% set file_path_mean = COMIN_ATMOS_GRIB ~ "/" ~ file_name_mean %}
-                            - "{{ file_path_mean | relpath(ROTDIR)}}"
-                            {% set file_name_spread = head ~ "spread.pres_." ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".grib2" %}
-                            {% set file_path_spread = COMIN_ATMOS_GRIB ~ "/" ~ file_name_spread %}
-                            - "{{ file_path_spread | relpath(ROTDIR)}}"
-                        {% else %}
-                            {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
-                            {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
-                            - "{{ file_path | relpath(ROTDIR)}}"
-                            {% set file_name = head ~ "pgrb2b." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
-                            {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
-                            - "{{ file_path | relpath(ROTDIR)}}"
-                        {% endif %}
                     {% endfor %}
                 {% endif %}
                 {% if res == "0p50" %}
                     {% for fhr in range(FHMAX_HF_GFS + FHOUT_GFS, FHMAX_GFS + FHOUT_GFS, FHOUT_GFS) %}
-                        {% if mem=="ensstat" %}
-                            {% set file_name_mean = head ~ "mean.pres_." ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".grib2" %}
-                            {% set file_path_mean = COMIN_ATMOS_GRIB ~ "/" ~ file_name_mean %}
-                            - "{{ file_path_mean | relpath(ROTDIR)}}"
-                            {% set file_name_spread = head ~ "spread.pres_." ~ res ~ ".f" ~ '%03d'|format(fhr) ~ ".grib2" %}
-                            {% set file_path_spread = COMIN_ATMOS_GRIB ~ "/" ~ file_name_spread %}
-                            - "{{ file_path_spread | relpath(ROTDIR)}}"
-                        {% else %}
-                            {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
-                            {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
-                            - "{{ file_path | relpath(ROTDIR)}}"
-                            {% set file_name = head ~ "pgrb2b." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
-                            {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
-                            - "{{ file_path | relpath(ROTDIR)}}"
-                        {% endif %}
+                        {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
+                        {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
+                        - "{{ file_path | relpath(ROTDIR)}}"
+                        {% set file_name = head ~ "pgrb2b." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
+                        {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
+                        - "{{ file_path | relpath(ROTDIR)}}"
                     {% endfor %}
                 {% endif %}
             {% endif %}
