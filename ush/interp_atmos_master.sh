@@ -54,7 +54,7 @@ export err=$?; err_chk
 for grid in "${grids[@]}"; do
   trim_rh "${output_file_prefix}_${grid}"; export err=$?; err_chk
   count=$(${WGRIB2} "${output_file_prefix}_${grid}" -match "LAND|ICEC" |wc -l)
-  if [ ${count} -eq 2 ]; then
+  if [[ "${count}" -eq 2 ]]; then
     mod_icec "${output_file_prefix}_${grid}"; export err=$?; err_chk
   fi
 done
