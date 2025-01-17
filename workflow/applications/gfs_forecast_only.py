@@ -57,9 +57,9 @@ class GFSForecastOnlyAppConfig(AppConfig):
         if self.do_ocean or self.do_ice:
             configs += ['oceanice_products']
 
-        if self.do_wave:
-            configs += ['waveinit', 'waveprep', 'wavepostsbs', 'wavepostpnt']
-            if self.do_wave_bnd:
+        if options['do_wave']:
+            configs += ['waveinit', 'wavepostsbs', 'wavepostpnt']
+            if options['do_wave_bnd']:
                 configs += ['wavepostbndpnt', 'wavepostbndpntbll']
             if self.do_gempak:
                 configs += ['wavegempak']

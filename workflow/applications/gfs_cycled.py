@@ -98,9 +98,9 @@ class GFSCycledAppConfig(AppConfig):
         if self.do_awips:
             configs += ['awips']
 
-        if self.do_wave:
-            configs += ['waveinit', 'waveprep', 'wavepostsbs', 'wavepostpnt']
-            if self.do_wave_bnd:
+        if options['do_wave']:
+            configs += ['waveinit', 'wavepostsbs', 'wavepostpnt']
+            if options['do_wave_bnd']:
                 configs += ['wavepostbndpnt', 'wavepostbndpntbll']
             if self.do_gempak:
                 configs += ['wavegempak']
@@ -162,18 +162,6 @@ class GFSCycledAppConfig(AppConfig):
         wave_bndpnt_tasks = ['wavepostbndpnt', 'wavepostbndpntbll']
         wave_post_tasks = ['wavepostsbs', 'wavepostpnt']
 
-        hybrid_tasks = []
-        hybrid_after_eupd_tasks = []
-        if self.do_hybvar:
-            if self.do_jediatmens:
-                hybrid_tasks += ['atmensanlinit', 'atmensanlfv3inc', 'atmensanlfinal', 'echgres']
-                hybrid_tasks += ['atmensanlobs', 'atmensanlsol'] if self.lobsdiag_forenkf else ['atmensanlletkf']
-            else:
-                hybrid_tasks += ['eobs', 'eupd', 'echgres']
-                hybrid_tasks += ['ediag'] if self.lobsdiag_forenkf else ['eomg']
-            if self.do_jedisnowda:
-                hybrid_tasks += ['esnowrecen']
-            hybrid_after_eupd_tasks += ['stage_ic', 'ecen', 'esfc', 'efcs', 'epos', 'earc', 'cleanup']
 
         # Collect all "gdas" cycle tasks
         gdas_tasks = gdas_gfs_common_tasks_before_fcst.copy()
