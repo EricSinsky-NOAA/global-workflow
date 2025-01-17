@@ -930,7 +930,12 @@ class GFSTasks(Tasks):
         dep = rocoto.add_dependency(dep_dict)
         dependencies = rocoto.create_dependency(dep=dep)
 
-        if self.app_config.do_jediocnvar:
+        if self.options['do_wave']:
+            wave_job = 'waveprep' if self.options['app'] in ['ATMW'] else 'waveinit'
+            dep_dict = {'type': 'task', 'name': f'{self.run}_{wave_job}'}
+            dependencies.append(rocoto.add_dependency(dep_dict))
+
+        if self.options['do_jediocnvar']:
             dep_dict = {'type': 'task', 'name': f'{self.run}_marineanlfinal'}
             dependencies.append(rocoto.add_dependency(dep_dict))
 
@@ -948,11 +953,6 @@ class GFSTasks(Tasks):
             dep_dict = {'type': 'task', 'name': f'{self.run}_stage_ic'}
             dependencies.append(rocoto.add_dependency(dep_dict))
             dependencies = rocoto.create_dependency(dep_condition='or', dep=dependencies)
-
-        if self.app_config.do_wave and self.run in self.app_config.wave_runs:
-            dep_dict = {'type': 'task', 'name': f'{self.run}_waveprep'}
-            dependencies.append(rocoto.add_dependency(dep_dict))
-            dependencies = rocoto.create_dependency(dep_condition='and', dep=dependencies)
 
         cycledef = 'gdas_half,gdas' if self.run in ['gdas'] else self.run
 
