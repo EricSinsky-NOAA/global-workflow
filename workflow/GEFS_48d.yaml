@@ -12,6 +12,6 @@ arguments:
   nens: 10
   comroot: "/lfs/h3/emc/gefstemp/emc.ens/hong.guan/rfcst_test/COMROOT"
   expdir: "/lfs/h3/emc/gefstemp/emc.ens/hong.guan/rfcst_test/EXPDIR"
-  yaml: GEFS_options.yaml
+  yaml: GEFS_options_48d.yaml
 
 
