@@ -1,0 +1,17 @@
+experiment:
+  system: gefs
+  mode: forecast-only
+arguments:
+  idate: 1998010100
+  edate: 1998013100
+  pslot: "rfcst_test"
+  resdetatmos: 384
+  resensatmos: 384
+  start: 'warm'
+  interval: 168
+  nens: 4
+  comroot: "/lfs/h3/emc/gefstemp/emc.ens/hong.guan/rfcst_test/COMROOT"
+  expdir: "/lfs/h3/emc/gefstemp/emc.ens/hong.guan/rfcst_test/EXPDIR"
+  yaml: GEFS_options_16d.yaml
+
+
