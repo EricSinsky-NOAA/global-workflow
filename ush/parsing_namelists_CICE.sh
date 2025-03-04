@@ -75,7 +75,7 @@ local CICE_hist_suffix="'x','x','x','x','x'"
 if [[ "${RUN}" =~ "gdas" ]]; then
   local CICE_HIST_AVG=".false., .false., .false., .false., .false."   # DA needs instantaneous
 else
-  local CICE_HIST_AVG=".true., .true., .true., .true., .true."    # GFS long forecaset wants averaged over CICE_HISTFREQ_N
+  local CICE_HIST_AVG=".false., .false., .false., .false., .false."    # GFS long forecaset wants averaged over CICE_HISTFREQ_N
 fi
 local CICE_HISTORY_FORMAT="pnetcdf2"
 local CICE_HISTORY_DIR="./CICE_OUTPUT/"
