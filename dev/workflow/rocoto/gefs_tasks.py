@@ -9,13 +9,12 @@ class GEFSTasks(Tasks):
         super().__init__(app_config, run)
 
     def fetch(self):
-
         resources = self.get_resource('fetch')
         task_name = f'{self.run}_fetch'
         task_dict = {'task_name': task_name,
                      'resources': resources,
                      'envars': self.envars,
-                     'cycledef': cycledef,
+                     'cycledef': self.run,
                      'command': f'{self.HOMEgfs}/jobs/rocoto/fetch.sh',
                      'job_name': f'{self.pslot}_{task_name}_@H',
                      'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
@@ -27,7 +26,6 @@ class GEFSTasks(Tasks):
         return task
 
     def stage_ic(self):
-
         dependencies = None
         if self.options['do_fetch_hpss'] or self.options['do_fetch_local']:
             deps = []

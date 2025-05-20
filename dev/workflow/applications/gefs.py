@@ -77,7 +77,7 @@ class GEFSAppConfig(AppConfig):
         if options['do_fetch_hpss'] or options['do_fetch_local']:
             configs += ['fetch']
 
-        configs = ['stage_ic', 'fcst', 'atmos_products']
+        configs += ['stage_ic', 'fcst', 'atmos_products']
 
         if options['do_bufrsnd']:
             configs += ['postsnd']
@@ -150,7 +150,7 @@ class GEFSAppConfig(AppConfig):
         if options['do_fetch_hpss'] or options['do_fetch_local']:
             tasks += ['fetch']
 
-        tasks = ['stage_ic']
+        tasks += ['stage_ic']
 
         if options['do_wave']:
             tasks += ['waveinit']
