@@ -76,7 +76,7 @@ class Fetch(Task):
 
         on_hpss = fetchdir_set.target.on_hpss
         dest = fetchdir_set.target.destination
-        tarball = fetchdir_set.targettarball
+        tarball = fetchdir_set.target.tarball
 
         # Select action whether no_hpss is True or not, and pull these
         #    data from tape or locally and place where it needs to go
