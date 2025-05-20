@@ -15,7 +15,7 @@ class GEFSTasks(Tasks):
                      'resources': resources,
                      'envars': self.envars,
                      'cycledef': self.run,
-                     'command': f'{self.HOMEgfs}/jobs/rocoto/fetch.sh',
+                     'command': f'{self.HOMEgfs}/dev/jobs/fetch.sh',
                      'job_name': f'{self.pslot}_{task_name}_@H',
                      'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
                      'maxtries': '&MAXTRIES;'
