@@ -71,7 +71,12 @@ class GEFSAppConfig(AppConfig):
         list
             List of configuration file names needed for the GEFS run
         """
+
+        configs = []
         options = self.run_options[run]
+        if options['do_fetch_hpss'] or options['do_fetch_local']:
+            configs += ['fetch']
+
         configs = ['stage_ic', 'fcst', 'atmos_products']
 
         if options['do_bufrsnd']:
@@ -139,6 +144,12 @@ class GEFSAppConfig(AppConfig):
             Dictionary with run name as key and list of task names as value
         """
         options = self.run_options[self.run]
+
+        tasks = []
+
+        if options['do_fetch_hpss'] or options['do_fetch_local']:
+            tasks += ['fetch']
+
         tasks = ['stage_ic']
 
         if options['do_wave']:
