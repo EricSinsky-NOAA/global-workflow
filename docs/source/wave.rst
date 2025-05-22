@@ -21,8 +21,6 @@ Here are several regional naming conventions:
 +===========+=======================+
 | glo       | Global domain         |
 +-----------+-----------------------+
-| uglo      | Unstructured global   |
-+-----------+-----------------------+
 | ak        | Alaska                |
 +-----------+-----------------------+
 | ao or aoc | Arctic Ocean          |
