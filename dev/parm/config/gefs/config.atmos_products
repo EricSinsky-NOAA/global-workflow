@@ -9,7 +9,7 @@ echo "BEGIN: config.atmos_products"
 . "${EXPDIR}/config.resources" atmos_products
 
 # Maximum number of rocoto tasks per member
-export MAX_TASKS=25
+export MAX_TASKS=1
 
 # Scripts used by this job
 export INTERP_ATMOS_MASTERSH="${USHgfs}/interp_atmos_master.sh"
