@@ -4,7 +4,7 @@ import os
 from logging import getLogger
 from typing import Any, Dict
 
-from wxflow import FileHandler, Task, logit, parse_j2yaml
+from wxflow import FileHandler, Task, logit, parse_j2yaml, strftime, to_YMD, to_YMDH, Hsi, Htar, which
 
 logger = getLogger(__name__.split('.')[-1])
 
@@ -43,6 +43,27 @@ class Stage(Task):
         -------
         None
         """
+
+        YYYYMMDDHH = to_YMDH(stage_dict.current_cycle)
+        YYYY = YYYYMMDDHH[0:4]
+        MM = YYYYMMDDHH[4:6]
+
+        if stage_dict.DO_DOWNLOAD_ICS is True:
+            # Download ICs from HPSS to ICSDIR
+            self.htar = Htar()
+            self.xvf = self.htar.xvf
+            self.xvf(stage_dict.HPSSICARCH + "/" + YYYYMMDDHH + ".tar")
+
+        if stage_dict.DO_REPAIR_REPLAY and stage_dict.DO_DOWNLOAD_ANLY is True:
+            # Download f03 replay analysis
+            aws_cmd = which("aws")
+            aws_cmd.add_default_arg("s3")
+            aws_cmd.add_default_arg("cp")
+            aws_cmd.add_default_arg("--no-sign-request")
+            aws_url = "s3://noaa-ufs-gefsv13replay-pds/"
+
+            aws_cmd(aws_url + YYYY + "/" + MM + "/" + YYYYMMDDHH + "/GFSPRS.GrbF03", "./")
+            aws_cmd(aws_url + YYYY + "/" + MM + "/" + YYYYMMDDHH + "/GFSFLX.GrbF03", "./")
 
         if not os.path.isdir(stage_dict.ROTDIR):
             raise FileNotFoundError(f"FATAL ERROR: The ROTDIR ({stage_dict.ROTDIR}) does not exist!")

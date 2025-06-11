@@ -130,6 +130,7 @@ export DO_WAVE="NO"
 export DO_OCN="NO"
 export DO_ICE="NO"
 export DO_EXTRACTVARS="{{ DO_EXTRACTVARS }}" # Option to process and extract a subset of products to save on disk
+export DO_REPAIR_REPLAY="@DO_REPAIR_REPLAY@" # Option to repair ave/acc/min/max variabes for f03 and f06 when one uses reply initial condition
 export DO_AERO_FCST="NO"
 export DOBNDPNT_WAVE="NO" # The GEFS buoys file does not currently have any boundary points
 export DOIBP_WAV="NO" # Option to create point outputs from input boundary points
@@ -218,16 +219,11 @@ export INTERVAL_GFS="{{ INTERVAL_GFS }}" # Frequency of GFS forecast
 export SDATE_GFS="{{ SDATE_GFS }}"
 
 # set variables needed for use with REPLAY ICs
-export REPLAY_ICS="{{ REPLAY_ICS }}"
+export REPLAY_ICS=@REPLAY_ICS@
 if [[ "${REPLAY_ICS:-NO}" == "YES" ]]; then
     export OFFSET_START_HOUR=$(( assim_freq / 2 ))
-    echo "WARNING: Replay ICs require perturbation files, ignoring any previous settings"
-    export USE_OCN_ENS_PERTURB_FILES="YES"
-    export USE_ATM_ENS_PERTURB_FILES="YES"
 else
     export OFFSET_START_HOUR=0
-    export USE_OCN_ENS_PERTURB_FILES="{{ USE_OCN_ENS_PERTURB_FILES }}"
-    export USE_ATM_ENS_PERTURB_FILES="{{ USE_ATM_ENS_PERTURB_FILES }}"
 fi
 
 # GFS output and frequency
@@ -308,6 +304,12 @@ if [[ "${EXP_WARM_START}" = ".true." ]]; then
     export IAU_FHROT=0
   fi
 fi
+
+export DO_DOWNLOAD_ICS="YES" # Set to YES to download ICs from HPSS, set to NO to copy ICs locally
+export HPSSICARCH="/NCEPDEV/emc-marine/2year/Neil.Barton/ICS/HR4/C384mx025" # ICs directory on HPSS
+
+export DO_DOWNLOAD_ANLY="YES" # Set to YES to download f03 replay analysis from AWS, set to NO to copy f03 analysis locally
+export ANLYDIR="" # f03 replay analysis directory on disk. May be left blank if DO_DOWNLOAD_ANLY is set to YES
 
 # turned on nsst in anal and/or fcst steps, and turn off rtgsst
 export DONST="YES"
