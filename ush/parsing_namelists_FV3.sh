@@ -667,6 +667,7 @@ EOF
   skebnorm = ${SKEBNORM:-"1"}
   skeb_npass = ${SKEB_NPASS:-"30"}
   skeb_vdof = ${SKEB_VDOF:-"5"}
+  skebint = ${SKEBINT:-"0"}
 EOF
   fi
 
@@ -676,6 +677,7 @@ EOF
   iseed_shum = ${ISEED_SHUM:-${ISEED}}
   shum_tau = ${SHUM_TAU:-"-999."}
   shum_lscale = ${SHUM_LSCALE:-"-999."}
+  shumint = ${SHUMINT:-"0"}
 EOF
   fi
 
@@ -688,6 +690,7 @@ EOF
   sppt_logit = ${SPPT_LOGIT:-".true."}
   sppt_sfclimit = ${SPPT_SFCLIMIT:-".true."}
   use_zmtnblck = ${use_zmtnblck:-".true."}
+  spptint = ${SPPTINT:-"0"}
   pbl_taper = ${pbl_taper:-"0,0,0,0.125,0.25,0.5,0.75"}
 EOF
   fi
