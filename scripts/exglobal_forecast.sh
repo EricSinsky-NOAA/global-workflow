@@ -101,6 +101,8 @@ ICETIM=${DELTIM}
 CPL_SLOW=${CPL_SLOW:-${OCNTIM}}
 CPL_FAST=${CPL_FAST:-${ICETIM}}
 
+python ${USHgfs}/ww3_ic_convert.py
+
 echo "MAIN: Loading common variables before determination of run type"
 common_predet
 
