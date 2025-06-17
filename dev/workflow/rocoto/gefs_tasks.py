@@ -51,6 +51,15 @@ class GEFSTasks(Tasks):
 
     def _offline_stage_ic(self):
 
+        dependencies = None
+        if self.options['do_fetch_hpss'] or self.options['do_fetch_local']:
+            deps = []
+            dep_dict = {
+                'type': 'task', 'name': f'{self.run}_fetch',
+            }
+            deps.append(rocoto.add_dependency(dep_dict))
+            dependencies = rocoto.create_dependency(dep=deps)
+
         resources = self.get_resource('stage_ic')
         task_name = f'{self.run}_stage_ic'
         task_dict = {'task_name': task_name,
@@ -69,6 +78,15 @@ class GEFSTasks(Tasks):
 
     def _rt_stage_ic(self):
 
+        dependencies = None
+        if self.options['do_fetch_hpss'] or self.options['do_fetch_local']:
+            deps = []
+            dep_dict = {
+                'type': 'task', 'name': f'{self.run}_fetch',
+            }
+            deps.append(rocoto.add_dependency(dep_dict))
+            dependencies = rocoto.create_dependency(dep=deps)
+
         resources = self.get_resource('stage_ic')
         stage_ic_envars = self.envars.copy()
         stage_ic_dict = {'ENSMEM': '#member#',
@@ -85,7 +103,8 @@ class GEFSTasks(Tasks):
                      'command': f'{self.HOMEgfs}/dev/jobs/stage_ic.sh',
                      'job_name': f'{self.pslot}_{task_name}_@H',
                      'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
-                     'maxtries': '&MAXTRIES;'
+                     'maxtries': '&MAXTRIES;',
+                     'dependency': dependencies
                      }
 
         member_var_dict = {'member': ' '.join([str(mem).zfill(3) for mem in range(0, self.nmem + 1)])}
