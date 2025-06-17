@@ -22,7 +22,7 @@ base:
   USE_OCN_ENS_PERTURB_FILES: "NO"
   USE_ATM_ENS_PERTURB_FILES: "NO"
   DO_TEST_MODE: "NO"
-  FETCHDIR: "/NCEPDEV/emc-global/1year/David.Grumm/test_data"
+  FETCHDIR: "/5year/NCEPDEV/emc-global/emc.glopara/WCOSS2/GFSv17/retrotestgfs10"
 fcst:
   reforecast: "NO"
   FHZERO: 6
