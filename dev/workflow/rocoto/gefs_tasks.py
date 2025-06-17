@@ -9,32 +9,38 @@ class GEFSTasks(Tasks):
         super().__init__(app_config, run)
 
     def fetch(self):
+
         resources = self.get_resource('fetch')
-        task_name = f'{self.run}_fetch'
+        fetch_envars = self.envars.copy()
+        fetch_dict = {'ENSMEM': '#member#',
+                         'MEMDIR': 'mem#member#'}
+
+        for key, value in fetch_dict.items():
+            fetch_envars.append(rocoto.create_envar(name=key, value=str(value)))
+
+        task_name = f'{self.run}_fetch_mem#member#'
         task_dict = {'task_name': task_name,
                      'resources': resources,
-                     'envars': self.envars,
+                     'envars': fetch_envars,
                      'cycledef': self.run,
                      'command': f'{self.HOMEgfs}/dev/jobs/fetch.sh',
                      'job_name': f'{self.pslot}_{task_name}_@H',
                      'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
-                     'maxtries': '&MAXTRIES;'
+                     'maxtries': '&MAXTRIES;',
                      }
 
-        task = rocoto.create_task(task_dict)
+        member_var_dict = {'member': ' '.join([str(mem).zfill(3) for mem in range(0, self.nmem + 1)])}
+        member_metatask_dict = {'task_name': f'{self.run}_fetch',
+                                'task_dict': task_dict,
+                                'var_dict': member_var_dict
+                                }
+
+        task = rocoto.create_task(member_metatask_dict)
 
         return task
 
     def stage_ic(self):
         dependencies = None
-        if self.options['do_fetch_hpss'] or self.options['do_fetch_local']:
-            deps = []
-            dep_dict = {
-                'type': 'task', 'name': f'{self.run}_fetch',
-            }
-            deps.append(rocoto.add_dependency(dep_dict))
-            dependencies = rocoto.create_dependency(dep=deps)
-
         stage_ic_map = {'gefs-offline': self._offline_stage_ic,
                         'near-real-time': self._rt_stage_ic}
         # Check if gefstype is valid
