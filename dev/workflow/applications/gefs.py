@@ -79,6 +79,9 @@ class GEFSAppConfig(AppConfig):
 
         configs += ['stage_ic', 'fcst', 'atmos_products']
 
+        if options['do_gefs_real_time']:
+            configs += ['gen_control_ic']
+
         if options['do_bufrsnd']:
             configs += ['postsnd']
 
@@ -151,6 +154,9 @@ class GEFSAppConfig(AppConfig):
             tasks += ['fetch']
 
         tasks += ['stage_ic']
+
+        if options['do_gefs_real_time']:
+            tasks += ['gen_control_ic']
 
         if options['do_wave']:
             tasks += ['waveinit']

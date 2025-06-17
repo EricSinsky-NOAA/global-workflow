@@ -4,7 +4,7 @@ import os
 from logging import getLogger
 from typing import Any, Dict
 
-from wxflow import (Hsi, Task, htar,
+from wxflow import (Task, htar,
                     logit, parse_j2yaml, chdir)
 # import tarfile
 
@@ -47,7 +47,6 @@ class Fetch(Task):
         parsed_fetch: Dict[str, Any]
            Dictionary derived from the yaml file with necessary HPSS info.
         """
-        self.hsi = Hsi()
 
         fetch_yaml = fetch_dict.FETCH_YAML_TMPL
         fetch_parm = os.path.join(fetch_dict.PARMgfs, "fetch")

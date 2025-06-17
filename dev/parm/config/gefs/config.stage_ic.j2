@@ -15,7 +15,17 @@ fi
 
 export BASE_IC="{{ BASE_IC }}" # Platform home for staged ICs
 
-export STAGE_IC_YAML_TMPL="${PARMgfs}/stage/master_gefs.yaml.j2"
+if [[ ${RUN} == "gefs" ]] ; then
+  if [[ ${GEFSTYPE} = "near-real-time" ]] ; then
+    export STAGE_IC_YAML_TMPL="${PARMgfs}/stage/master_gefs_RT.yaml.j2"
+  elif [[ ${GEFSTYPE} = "gefs-offline" ]] ; then
+    export STAGE_IC_YAML_TMPL="${PARMgfs}/stage/master_gefs.yaml.j2"
+  else
+    echo "ERROR: Invalid GEFSTYPE=${GEFSTYPE} for config.stage_ic"
+  fi
+else
+  export STAGE_IC_YAML_TMPL="${PARMgfs}/stage/master_gefs.yaml.j2"
+fi
 
 source "${HOMEgfs}/versions/ic.ver"
 

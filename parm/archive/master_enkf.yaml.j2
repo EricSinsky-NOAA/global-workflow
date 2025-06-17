@@ -3,9 +3,8 @@
 {% set cycle_YMD = current_cycle | to_YMD %}
 {% set cycle_YMDH = current_cycle | to_YMDH %}
 {% set head = RUN + ".t" + cycle_HH + "z." %}
-# TODO Should enkfgdas be replaced with RUN?
-{% set head_ocean = "enkfgdas.ocean.t" + cycle_HH + "z." %}
-{% set head_ice = "enkfgdas.ice.t" + cycle_HH + "z." %}
+{% set head_ocean = RUN ~ ".ocean.t" ~ cycle_HH ~ "z." %}
+{% set head_ice = RUN ~ ".ice.t" ~ cycle_HH ~ "z." %}
 
 # Determine which data to archive
 datasets:
@@ -75,6 +74,12 @@ datasets:
 
     {% endfor %}
 
+    {% set tmpl_dict = ({ '${ROTDIR}':ROTDIR,
+                          '${RUN}':RUN,
+                          '${YMD}':cycle_YMD,
+                          '${HH}':cycle_HH,
+                          '${MEMDIR}': "ensstat"}) %}
+    {% set COMIN_CONF = COM_CONF_TMPL | replace_tmpl(tmpl_dict) %}
     # Archive member data
     {% filter indent(width=4) %}
 {% include "enkf_grp.yaml.j2" %}

@@ -70,6 +70,9 @@ export BASE_GIT="{{ BASE_GIT }}"
 # Base directory for staged data
 export BASE_DATA="{{ BASE_DATA }}"
 
+# Toggle to turn on/off EMCSFC_SFC_PREP job
+export DO_PREP_SFC="NO"    # SNOGRB dump file production
+
 # Toggle to turn on/off GFS downstream processing.
 export DO_GOES="{{ DO_GOES }}"               # GOES products
 export DO_BUFRSND="{{ DO_BUFRSND }}"         # BUFR sounding products
@@ -100,7 +103,6 @@ export HOMEpost="${HOMEgfs}"
 export HOMEobsproc="${BASE_GIT:-}/obsproc/v${obsproc_run_ver:-}"
 
 # CONVENIENT utility scripts and other environment parameters
-export NCP="/bin/cp -p"
 export NMV="/bin/mv"
 export NLN="/bin/ln -sf"
 export VERBOSE="YES"
@@ -122,7 +124,6 @@ export assim_freq=6
 export PSLOT="{{ PSLOT }}"
 export EXPDIR="{{ EXPDIR }}/${PSLOT}"
 export ROTDIR="{{ COMROOT }}/${PSLOT}"
-export ROTDIR_DUMP="YES"                #Note: A value of "NO" does not currently work
 export DUMP_SUFFIX=""
 if [[ "${PDY}${cyc}" -ge "2019092100" && "${PDY}${cyc}" -le "2019110700" ]]; then
     export DUMP_SUFFIX="p"              # Use dumps from NCO GFS v15.3 parallel
@@ -139,10 +140,7 @@ export RUN=${RUN:-"gfs"}  # RUN is defined in the job-card (ecf)
 # Get all the COM path templates
 source "${EXPDIR}/config.com"
 
-# shellcheck disable=SC2016
-export ERRSCRIPT=${ERRSCRIPT:-'eval [[ $err = 0 ]]'}
 export LOGSCRIPT=${LOGSCRIPT:-""}
-#export ERRSCRIPT=${ERRSCRIPT:-"err_chk"}
 #export LOGSCRIPT=${LOGSCRIPT:-"startmsg"}
 export REDOUT="1>"
 export REDERR="2>"
@@ -180,7 +178,7 @@ aero_fcst_runs="gdas" # When to run aerosol forecast: gdas, gfs, or both
 aero_anl_runs="gdas gfs" # When to run aerosol analysis: gdas, gfs, or both
 export DO_AERO_FCST="NO"
 export DO_AERO_ANL="NO"
-export DOBNDPNT_WAVE="NO"
+export DOBNDPNT_WAVE="YES"
 export DOIBP_WAV="NO" # Option to create point outputs from input boundary points
 export FRAC_GRID=".true."
 export DO_NEST="NO" # Whether to run a global-nested domain
@@ -408,11 +406,17 @@ fi
 # Generate post-processing ensemble spread files
 export ENKF_SPREAD="YES"
 
+#Soil DA and whether it is (land) IAU
+export DO_GSISOILDA="{{ DO_GSISOILDA }}"
+export DO_LAND_IAU="{{ DO_LAND_IAU }}"
+export LSOIL_INCR=2
+
 # Check if cycle is cold starting, DOIAU off, or free-forecast mode
 if [[ "${MODE}" = "cycled" && "${SDATE}" = "${PDY}${cyc}" && ${EXP_WARM_START} = ".false." ]] || [[ "${DOIAU}" = "NO" ]] || [[ "${MODE}" = "forecast-only" && ${EXP_WARM_START} = ".false." ]] ; then
   export IAU_OFFSET=0
   export IAU_FHROT=0
   export IAUFHRS="6,"
+  export DO_LAND_IAU=".false."
 fi
 
 if [[ "${DOIAU_ENKF}" = "NO" ]]; then export IAUFHRS_ENKF="6,"; fi
@@ -432,8 +436,6 @@ if [[ "${DOIAU}" == "YES" ]]; then
 else
   export restart_interval_gdas="6"
 fi
-
-export DO_GSISOILDA="{{ DO_GSISOILDA }}"
 
 # turned on nsst in anal and/or fcst steps, and turn off rtgsst
 export DONST="YES"
@@ -494,7 +496,7 @@ if [[ "${DO_JEDIATMVAR}" = "YES" ]]; then
    export DO_VMINMON="NO"     # GSI minimization monitoring
    export DO_ANLSTAT="YES"    # JEDI-based analysis statistics
 else
-   if [[ ${DO_AERO} = "YES" || ${DO_JEDIOCNVAR} = "YES" || ${DO_JEDISNOWDA} = "YES " ]]; then
+   if [[ "${DO_AERO}" = "YES" || "${DO_JEDIOCNVAR}" = "YES" || "${DO_JEDISNOWDA}" = "YES" ]]; then
      export DO_ANLSTAT="YES"  # JEDI-based analysis statistics
    fi
 fi
