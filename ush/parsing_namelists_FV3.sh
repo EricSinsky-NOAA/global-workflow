@@ -739,6 +739,7 @@ else
 
   cat >> input.nml << EOF
 &nam_stochy
+  new_lscale = .true.
 /
 &nam_sfcperts
 /
