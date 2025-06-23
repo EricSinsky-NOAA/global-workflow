@@ -656,6 +656,8 @@ if [[ "${DO_SPPT}" = "YES" || "${DO_SHUM}" = "YES" || "${DO_SKEB}" = "YES" || "$
 
     cat >> input.nml << EOF
 &nam_stochy
+  new_lscale = .true.
+/
 EOF
 
   if [[ ${DO_SKEB} = "YES" ]]; then
