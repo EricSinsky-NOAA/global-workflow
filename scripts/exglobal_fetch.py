@@ -28,11 +28,14 @@ def main():
 
         # Pull out all the configuration keys needed to run the fetch step
         keys = ['current_cycle', 'previous_cycle', 'RUN', 'PDY', 'PARMgfs', 'PSLOT', 'ROTDIR',
-                'FETCH_YAML_TMPL', 'FETCHDIR', 'ntiles', 'DATA', 'DATAROOT', 'waveGRD', 'gdas_version']
+                'FETCH_YAML_TMPL', 'FETCHDIR', 'ntiles', 'DATA', 'DATAROOT', 'waveGRD', 'gdas_version',
+                'assim_freq']
 
         fetch_dict = AttrDict()
         for key in keys:
             fetch_dict[key] = fetch.task_config.get(key)
+            if "ENSMEM" in fetch.task_config:
+                fetch_dict["ENSMEM"] = fetch.task_config["ENSMEM"]
             if fetch_dict[key] is None:
                 print(f"Warning: key ({key}) not found in task_config!")
 
