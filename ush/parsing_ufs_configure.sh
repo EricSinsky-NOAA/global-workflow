@@ -35,6 +35,9 @@ local med_model="cmeps"
 local med_petlist_bounds="0 $(( MEDPETS-1 ))"
 local med_omp_num_threads="${MEDTHREADS}"
 
+# vector remapping
+local MAPUV3D=true
+
 if [[ "${cpl}" = ".true." ]]; then
   local coupling_interval_slow_sec="${CPL_SLOW}"
 fi
@@ -52,6 +55,11 @@ if [[ "${cplflx}" = ".true." ]]; then
   local RUNTYPE="${cmeps_run_type}"
   local CMEPS_RESTART_DIR="CMEPS_RESTART/"
   local CPLMODE="${cplmode}"
+  local CMEPS_PIO_FORMAT='netcdf'
+  local CMEPS_PIO_STRIDE=4
+  local CMEPS_PIO_IOTASKS=-99
+  local CMEPS_PIO_REARR='box'
+  local CMEPS_PIO_ROOT=-99
   local coupling_interval_fast_sec="${CPL_FAST}"
   local RESTART_N="${restart_interval}"
   local ocean_albedo_limit=0.06
@@ -59,6 +67,8 @@ if [[ "${cplflx}" = ".true." ]]; then
   local ocean_albedo_limit=0.06
   local pio_rearranger=${pio_rearranger:-"box"}
   local MED_history_n=1000000 
+
+  local histaux_enabled=".false."
 fi
 
 if [[ "${cplice}" = ".true." ]]; then
@@ -77,6 +87,16 @@ if [[ "${cplwav}" = ".true." ]]; then
   local MULTIGRID="${waveMULTIGRID}"
   local WW3_user_sets_restname="false"
 
+  local WW3_user_histname="false"
+  local WW3_historync="false"
+  local WW3_restartnc="false" 
+  local WW3_restart_from_binary="false"
+  local WW3_PIO_FORMAT="pnetcdf"
+  local WW3_PIO_IOTASKS=-99
+  local WW3_PIO_STRIDE=4
+  local WW3_PIO_REARR="box"
+  local WW3_PIO_ROOT=-99
+
 fi
 
 if [[ "${cplchm}" = ".true." ]]; then
@@ -86,6 +106,13 @@ if [[ "${cplchm}" = ".true." ]]; then
   local chm_omp_num_threads="${CHMTHREADS}"
   local coupling_interval_sec="${CPL_FAST}"
 
+fi
+
+#Set ESMF_THREADING variable for ufs configure 
+if [[ "${USE_ESMF_THREADING}" = "YES" ]]; then 
+  local ESMF_THREADING="true" 
+else
+  local ESMF_THREADING="false" 
 fi
 
 # Ensure the template exists

@@ -157,7 +157,7 @@ case "${fv3_res}" in
         export k_split=2
         export n_split=4
         export tau=4.0
-        export rf_cutoff=100.0
+        export rf_cutoff=300.0
         export fv_sg_adj=900
         export WRITE_GROUP=2
         export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=8
@@ -506,9 +506,6 @@ fi
 
 # Set the name of the UFS (previously nems) configure template to use
 # Default ufs.configure templates for supported model configurations
-if [[ "${USE_ESMF_THREADING:-}" == "YES" ]]; then
-  tmpl_suffix="_esmf"
-fi
 case "${model_list}" in
   atm)
     default_template="${PARMgfs}/ufs/ufs.configure.atm${tmpl_suffix:-}.IN"

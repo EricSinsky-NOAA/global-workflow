@@ -15,6 +15,9 @@ if [[ "${DO_REPAIR_REPLAY}" == "YES" ]]; then
   fi
 fi
 
+hsi get /NCEPDEV/emc-land/5year/Rongqian.Yang/GEFS_miniset_HR5/${PDY}.tar
+tar -xvf ${PDY}.tar
+
 # Execute staging
 "${SCRgfs}/exglobal_stage_ic.py"
 err=$?

@@ -495,14 +495,32 @@ FV3_predet(){
   # Aerosol options
   IAER=${IAER:-1011}
 
+  MERRA2_6ym=${MERRA2_6ym:-".false."}
   ## merra2 aerosol climo
   if (( IAER == 1011 )); then
-    local month mm
-    for (( month = 1; month <=12; month++ )); do
-      mm=$(printf %02d "${month}")
-      ${NCP} "${FIXgfs}/aer/merra2.aerclim.2014-2023.m${mm}.nc" "aeroclim.m${mm}.nc"
-    done
-  fi
+    if [[ "${MERRA2_6ym}" == ".false." ]]; then
+#   local month mm
+      for (( month = 1; month <=12; month++ )); do
+        mm=$(printf %02d "${month}")
+        cpreq "${FIXgfs}/aer/merra2.aerclim.2014-2023.m${mm}.nc" "aeroclim.m${mm}.nc"
+      done
+    elif [[ "${MERRA2_6ym}" == ".true." ]]; then
+      year=${current_cycle:0:4}
+      for i in {1980..2300..5}
+      do
+        if [[ ${year} -le ${i} ]]
+        then
+          Eyear=$(printf %04d "${i}")
+          Syear=$(( i - 5 ))
+          break
+        fi
+      done
+      for (( month = 1; month <=12; month++ )); do
+        mm=$(printf %02d "${month}")
+        cpreq "${FIXgfs}/aer/y${Syear}-${Eyear}/merra2_${Syear}-${Eyear}_${mm}.nc" "aeroclim.m${mm}.nc"
+      done
+    fi # if [[ "${MERRA2_6ym}" == ".true." ]];
+  fi  # if (( IAER == 1011 ))
 
   ${NCP} "${FIXgfs}/am/global_climaeropac_global.txt" "${DATA}/aerosol.dat"
   if (( IAER > 0 )) ; then
@@ -716,6 +734,30 @@ CMEPS_predet(){
 
   if [[ ! -d "${DATArestart}/CMEPS_RESTART" ]]; then mkdir -p "${DATArestart}/CMEPS_RESTART"; fi
   ${NLN} "${DATArestart}/CMEPS_RESTART" "${DATA}/CMEPS_RESTART"
+
+  # For CMEPS, CICE, MOM6 and WW3 determine restart writes
+  # Note FV3 has its own restart intervals  
+  cmeps_restart_interval=${restart_interval:-${FHMAX}}
+  # restart_interval = 0 implies write restart at the END of the forecast i.e. at FHMAX
+  # Convert restart interval into an explicit list for FV3
+  if (( cmeps_restart_interval == 0 )); then
+    if [[ "${DOIAU:-NO}" == "YES" ]]; then
+      CMEPS_RESTART_FH=$(( FHMAX + half_window ))
+    else
+      CMEPS_RESTART_FH=("${FHMAX}")
+    fi
+  else
+    if [[ "${DOIAU:-NO}" == "YES" ]]; then
+      local restart_interval_start=$(( cmeps_restart_interval + half_window ))
+      local restart_interval_end=$(( FHMAX + half_window ))
+    else
+      local restart_interval_start=${cmeps_restart_interval}
+      local restart_interval_end=${FHMAX}
+    fi
+    CMEPS_RESTART_FH="$(seq -s ' ' "${restart_interval_start}" "${cmeps_restart_interval}" "${restart_interval_end}")"
+  fi
+  export CMEPS_RESTART_FH
+  # TODO: For GEFS, once cycling waves "self-cycles" and therefore needs to have a restart at 6 hour
 
 }
 
