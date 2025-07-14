@@ -59,7 +59,7 @@ fi
 # Determine grids once and save them as a string and an array for processing
 grid_string="0p25"
 if [[ "${PGBS:-}" == "YES" ]]; then
-  grid_string="${grid_string}:0p50:1p00"
+  grid_string="${grid_string}:0p50:1p00:2p50"
 else
   echo "Supplemental product generation is disable for fhr = ${fhr3}"
   PGBS="NO"  # Can't generate supplemental products if PGBS is not YES

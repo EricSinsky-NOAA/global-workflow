@@ -27,6 +27,8 @@ grid0p25="latlon 0:1440:0.25 90:721:-0.25"
 grid0p50="latlon 0:720:0.5 90:361:-0.5"
 # shellcheck disable=SC2034
 grid1p00="latlon 0:360:1.0 90:181:-1.0"
+# shellcheck disable=SC2034
+grid2p50="latlon 0:144:2.5 90:73:-2.5"
 
 # "Import" functions used in this script
 source "${USHgfs}/product_functions.sh"
