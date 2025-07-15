@@ -1,0 +1,22 @@
+{% set cycle_YMDH = current_cycle | to_YMDH %}
+{% set cycle_YMD = current_cycle | to_YMD %}
+{% set cycle_HH = current_cycle | strftime("%H") %}
+{% set previous_cycle_YMDH = previous_cycle | to_YMDH %}
+target:
+  - tarball : "{{ FETCHDIR }}/{{ previous_cycle_YMDH }}/gdas.tar"
+    on_hpss: True
+    contents:
+        {% set DIAU_cold_previous_file = 'gdas.' ~ previous_cycle_YMD ~ '/' ~ previous_cycle_HH ~ '/analysis/atmos/gdas.t' ~ previous_cycle_HH ~ 'z.atma003.ensres.nc' %}
+        - {{ DIAU_cold_previous_file }}
+
+    destination: "{{ DATAROOT }}"
+
+  - tarball : "{{ FETCHDIR }}/{{ cycle_YMDH }}/gfs_netcdfa.tar" 
+    on_hpss: True
+    contents:
+        {% set DIAU_cold_current_file =  'gfs.' ~ current_cycle_YMD ~ '/' ~ current_cycle_HH ~ '/analysis/atmos/gfs.t' ~ current_cycle_HH ~ 'z.atminc.nc' %}
+        {% set DIAU_current_file= 'gfs.' ~ current_cycle_YMD ~ '/' ~ current_cycle_HH ~ '/analysis/atmos/gfs.t' ~ current_cycle_HH ~ 'z.atmanl.nc' %}
+        - {{ DIAU_cold_current_file }}
+        - {{ DIAU_current_file }}
+
+    destination: "{{ DATAROOT }}"

@@ -69,36 +69,38 @@ class Fetch(Task):
             None
         """
 
-        f_names = fetchdir_set.target.contents
-        if len(f_names) <= 0:     # Abort if no files
-            raise FileNotFoundError("FATAL ERROR: The tar ball has no files")
 
-        on_hpss = fetchdir_set.target.on_hpss
-        dest = fetchdir_set.target.destination
-        tarball = fetchdir_set.target.tarball
+        for target in fetchdir_set.target:
+            f_names = target["contents"]
+            if len(f_names) <= 0:     # Abort if no files
+                raise FileNotFoundError("FATAL ERROR: The tar ball has no files")
 
-        # Select action whether no_hpss is True or not, and pull these
-        #    data from tape or locally and place where it needs to go
-        # DG - these need testing
-        with chdir(dest):
-            logger.info(f"Changed working directory to {dest}")
-            if on_hpss is True:  # htar all files in fnames
-                htar_obj = htar.Htar()
-                htar_obj.xvf(tarball, f_names)
-            else:  # tar all files in fnames
-                raise NotImplementedError("The fetch job does not yet support pulling from local archives")
+            on_hpss = target["on_hpss"]
+            dest = target["destination"]
+            tarball = target["tarball"]
 
-#                with tarfile.open(dest, "w") as tar:
-#                    for filename in f_names:
-#                        tar.add(filename)
-            # Verify all data files were extracted
-            missing_files = []
-            for f in f_names:
-                if not os.path.exists(f):
-                    missing_files.append(f)
-            if len(missing_files) > 0:
-                message = "Failed to extract all required files.  Missing files:\n"
-                for f in missing_files:
-                    message += f"{f}\n"
+            # Select action whether no_hpss is True or not, and pull these
+            #    data from tape or locally and place where it needs to go
+            # DG - these need testing
+            with chdir(dest):
+                logger.info(f"Changed working directory to {dest}")
+                if on_hpss is True:  # htar all files in fnames
+                    htar_obj = htar.Htar()
+                    htar_obj.xvf(tarball, f_names)
+                else:  # tar all files in fnames
+                    raise NotImplementedError("The fetch job does not yet support pulling from local archives")
 
-                raise FileNotFoundError(message)
+#                    with tarfile.open(dest, "w") as tar:
+#                        for filename in f_names:
+#                            tar.add(filename)
+                # Verify all data files were extracted
+                missing_files = []
+                for f in f_names:
+                    if not os.path.exists(f):
+                        missing_files.append(f)
+                if len(missing_files) > 0:
+                    message = "Failed to extract all required files.  Missing files:\n"
+                    for f in missing_files:
+                        message += f"{f}\n"
+
+                    raise FileNotFoundError(message)
