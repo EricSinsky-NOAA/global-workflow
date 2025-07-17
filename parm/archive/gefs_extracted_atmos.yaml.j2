@@ -20,7 +20,7 @@ gefs_atmos:
 {% endif %}
 
 {% for mem in members %}
-    {% for res in ['0p25', '0p50', '1p00'] %}
+    {% for res in ['0p25', '0p50', '1p00', '2p50'] %}
         {% set tmpl_dict = ({ '${ROTDIR}':ROTDIR,
                               '${RUN}':RUN,
                               '${YMD}':cycle_YMD,
@@ -54,6 +54,16 @@ gefs_atmos:
                 {% endif %}
                 {% if res == "0p50" %}
                     {% for fhr in range(FHMAX_HF_GFS + FHOUT_GFS, FHMAX_GFS + FHOUT_GFS, FHOUT_GFS) %}
+                        {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
+                        {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
+                        - "{{ file_path | relpath(ROTDIR)}}"
+                        {% set file_name = head ~ "pgrb2b." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
+                        {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
+                        - "{{ file_path | relpath(ROTDIR)}}"
+                    {% endfor %}
+                {% endif %}
+                {% if res == "2p50" %}
+                    {% for fhr in range(FHOUT_GFS, FHMAX_GFS + FHOUT_GFS, FHOUT_GFS) %}
                         {% set file_name = head ~ "pgrb2." ~ res ~ ".f" ~ '%03d'|format(fhr) %}
                         {% set file_path = COMIN_ATMOS_GRIB ~ "/" ~ file_name %}
                         - "{{ file_path | relpath(ROTDIR)}}"
