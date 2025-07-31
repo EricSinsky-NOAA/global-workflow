@@ -145,7 +145,7 @@ case "${fv3_res}" in
         export DELTIM=300
         export layout_x=6
         export layout_y=8
-        export layout_x_gfs=8
+        export layout_x_gfs=12
         export layout_y_gfs=12
         export nthreads_fv3=1
         export nthreads_fv3_gfs=2
@@ -162,7 +162,7 @@ case "${fv3_res}" in
         export WRITE_GROUP=2
         export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=8
         export WRITE_GROUP_GFS=1
-        export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE_GFS=8
+        export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE_GFS=4
         export OUTPUT_HISTORY=".false."
         ;;
     "C768")
@@ -374,7 +374,7 @@ if [[ "${skip_mom6}" == "false" ]]; then
       TOPOEDITS=""
       ;;
     "025")
-      ntasks_mom6=120
+      ntasks_mom6=130
       OCNTIM=1800
       NX_GLB=1440
       NY_GLB=1080
@@ -442,7 +442,7 @@ if [[ "${skip_cice6}" == "false" ]]; then
       cice6_processor_shape="slenderX2"
       ;;
     "025")
-      ntasks_cice6=60
+      ntasks_cice6=72
       cice6_processor_shape="slenderX2"
       ;;
     *)
@@ -471,7 +471,7 @@ if [[ "${skip_ww3}" == "false" ]]; then
       ntasks_ww3=100
       ;;
     "glo_025")
-      ntasks_ww3=100
+      ntasks_ww3=163
       nthreads_ww3=2
       ;;
     "glo_100")
