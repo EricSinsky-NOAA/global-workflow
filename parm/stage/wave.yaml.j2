@@ -9,5 +9,5 @@ wave:
         {% for mem in range(first_mem, last_mem + 1) %}
         {% set imem = mem - first_mem %}
         {% set COMOUT_WAVE_RESTART_PREV_MEM = COMOUT_WAVE_RESTART_PREV_MEM_list[imem] %}
-        - ["/lfs/h2/emc/ens/noscrub/eric.sinsky/new_wave_ics/{{ m_prefix }}.restart.{{ waveGRD }}", "{{ COMOUT_WAVE_RESTART_PREV_MEM }}"]
+        - ["/gpfs/f6/drsa-precip3/scratch/Eric.Sinsky/new_wave_ics/{{ m_prefix }}.restart.{{ waveGRD }}", "{{ COMOUT_WAVE_RESTART_PREV_MEM }}"]
         {% endfor %} # mem loop
