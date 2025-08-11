@@ -8,7 +8,7 @@ HOMEDIR: '/gpfs/f6/${ACCOUNT}/scratch/${USER}'
 STMP: '/gpfs/f6/${ACCOUNT}/scratch/${USER}'
 PTMP: '/gpfs/f6/${ACCOUNT}/scratch/${USER}'
 NOSCRUB: $HOMEDIR
-ACCOUNT: drsa-precip3
+ACCOUNT: gefs-cpu
 SCHEDULER: slurm
 QUEUE: normal
 QUEUE_SERVICE: normal
