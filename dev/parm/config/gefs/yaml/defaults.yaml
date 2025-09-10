@@ -24,6 +24,7 @@ base:
   DO_TEST_MODE: "NO"
   FETCHDIR: "/5year/NCEPDEV/emc-global/emc.glopara/WCOSS2/GFSv17/retrotestgfs10"
 fcst:
+  CHECK_LAND_RESTART_OROG: "YES"
   reforecast: "NO"
   FHZERO: 6
   TYPE: "nh"
