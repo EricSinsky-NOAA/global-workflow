@@ -389,7 +389,7 @@ fi
 cd "${HOMEgfs}/sorc" || exit 8
 if [[ -d ufs_model.fd ]]; then
   [[ -d upp.fd ]] && rm -rf upp.fd
-  ${LINK} ufs_model.fd/FV3/upp upp.fd
+  ${LINK} ufs_model.fd/UFSATM/upp upp.fd
 fi
 
 if [[ -d gsi_enkf.fd ]]; then
