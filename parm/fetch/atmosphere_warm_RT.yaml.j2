@@ -27,7 +27,7 @@ target:
         - {{ restart_mem_path ~ 'coupler.res' }}
         - {{ restart_mem_path ~ 'fv_core.res.nc' }}
         {% set ntiles = 6 %}
-        {% for ftype in ["fv_core.res", "fv_srf_wnd.res", "phy_data", "sfc_data"] %}
+        {% for ftype in ["fv_core.res", "fv_srf_wnd.res", "phy_data", "sfc_data", "fv_tracer.res", "ca_data"] %}
             # Include restart tile files (e.g., .tile1 to .tile6)
             {% for tile in range(1, ntiles + 1) %}
         - {{ restart_mem_path ~ ftype ~ '.tile' ~ tile ~ '.nc' }}
