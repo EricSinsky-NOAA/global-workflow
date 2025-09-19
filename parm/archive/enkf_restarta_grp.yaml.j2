@@ -31,6 +31,8 @@ enkf_restarta_grp:
         - "{{ COMIN_ATMOS_RESTART_MEM | relpath(ROTDIR) }}/{{ anl_time | to_YMD }}.{{ anl_time | strftime("%H") }}0000.sfcanl_data.tile{{ itile }}.nc"
         {% endfor %}
 
+
+        {% if is_gdas %}
         # Member atmospheric analysis data
         {% if DO_JEDIATMENS %}
         {% for itile in range(6) %}
@@ -82,5 +84,5 @@ enkf_restarta_grp:
         - "{{ COMIN_ICE_RESTART_MEM | relpath(ROTDIR) }}/{{ cycle_YMD }}.{{ rst_time | strftime("%H") }}0000.cice_model.res.nc"
         - "{{ COMIN_MED_RESTART_MEM | relpath(ROTDIR) }}/{{ cycle_YMD }}.{{ rst_time | strftime("%H") }}0000.ufs.cpld.cpl.r.nc"
         {% endif %} # DOHYBVAR_OCN
-
+        {% endif %} # is_gdas
         {% endfor %}  # first_group_mem to last_group_mem
