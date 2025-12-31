@@ -67,7 +67,6 @@ jobs/JGLOBAL_ATMOS_UPP @WenMeng-NOAA
 jobs/JGLOBAL_ATMOS_VMINMON @EdwardSafford-NOAA
 jobs/JGLOBAL_ATM_* @RussTreadon-NOAA @DavidNew-NOAA @CoryMartin-NOAA
 jobs/JGLOBAL_CLEANUP @DavidHuber-NOAA
-jobs/JGLOBAL_EXTRACTVARS @EricSinsky-NOAA
 jobs/JGLOBAL_FORECAST @aerorahul
 jobs/JGLOBAL_MARINE_* @guillaumevernieres @AndrewEichmann-NOAA
 jobs/JGLOBAL_OCEANICE_PRODUCTS @JesseMeng-NOAA @ChristopherHill-NOAA
@@ -125,7 +124,6 @@ scripts/exglobal_atmos_upp.py @WenMeng-NOAA
 scripts/exglobal_atmos_vminmon.sh @EdwardSafford-NOAA
 scripts/exglobal_cleanup.sh @DavidHuber-NOAA
 scripts/exglobal_diag.sh @RussTreadon-NOAA @CoryMartin-NOAA
-scripts/exglobal_extractvars.sh @EricSinsky-NOAA
 scripts/exglobal_forecast.py @aerorahul
 scripts/exglobal_forecast.sh @aerorahul
 scripts/exglobal_marine_analysis_* @guillaumevernieres @AndrewEichmann-NOAA
@@ -143,13 +141,11 @@ scripts/exglobal_stage_ic.py @DavidHuber-NOAA @aerorahul
 # ush
 ush/WAM_XML_to_ASCII.pl
 ush/atmos_ensstat.sh
-ush/atmos_extractvars.sh @EricSinsky-NOAA
 ush/bash_utils.sh
 ush/calcanl_gfs.py @CoryMartin-NOAA
 ush/calcinc_gfs.py @CoryMartin-NOAA
 ush/detect_machine.sh
 ush/create_gs_info.sh @jswhit2 @DavidHuber-NOAA
-ush/extractvars_tools.sh @EricSinsky-NOAA
 ush/file_utils.sh
 ush/forecast_det.sh @aerorahul
 ush/forecast_postdet.sh @aerorahul
@@ -177,7 +173,6 @@ dev/ush/load_modules.sh @aerorahul @DavidHuber-NOAA @RussTreadon-NOAA @JessicaMe
 ush/merge_fv3_aerosol_tile.py
 ush/minmon_xtrct_*.pl @EdwardSafford-NOAA
 ush/module-setup.sh @aerorahul
-ush/ocnice_extractvars.sh @EricSinsky-NOAA
 ush/ozn_xtrct.sh @EdwardSafford-NOAA
 ush/parse-storm-type.pl
 ush/parsing_model_configure_FV3.sh @aerorahul @junwang-noaa
