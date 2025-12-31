@@ -97,9 +97,6 @@ class GEFSAppConfig(AppConfig):
         if options['do_aero_fcst']:
             configs += ['prep_emissions']
 
-        if options['do_extractvars']:
-            configs += ['extractvars']
-
         if options['do_archcom']:
             configs += ['arch_tars']
             if options['do_globusarch']:
@@ -179,9 +176,6 @@ class GEFSAppConfig(AppConfig):
 
         if options['do_wave']:
             tasks += ['wavepostsbs', 'wave_stat', 'wave_stat_pnt']
-
-        if options['do_extractvars']:
-            tasks += ['extractvars']
 
         if options['do_archcom']:
             tasks += ['arch_tars']

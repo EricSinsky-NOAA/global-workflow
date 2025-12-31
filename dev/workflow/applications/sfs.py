@@ -88,9 +88,6 @@ class SFSAppConfig(AppConfig):
         if options['do_aero_fcst']:
             configs += ['prep_emissions']
 
-        if options['do_extractvars']:
-            configs += ['extractvars']
-
         if options['do_archcom']:
             configs += ['arch_tars']
             if options['do_globusarch']:
@@ -162,9 +159,6 @@ class SFSAppConfig(AppConfig):
             if options['do_wave_bnd']:
                 tasks += ['wavepostbndpnt', 'wavepostbndpntbll']
             tasks += ['wavepostpnt']
-
-        if options['do_extractvars']:
-            tasks += ['extractvars']
 
         # TODO add archiving for SFS
         # if options['do_archcom']:

@@ -479,51 +479,6 @@ class SFSTasks(Tasks):
 
         return task
 
-    def extractvars(self):
-        deps = []
-        if self.options['do_wave']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_wave_post_grid_#member#'}
-            deps.append(rocoto.add_dependency(dep_dict))
-        if self.options['do_ocean']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_ocean_prod_#member#'}
-            deps.append(rocoto.add_dependency(dep_dict))
-        if self.options['do_ice']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_ice_prod_#member#'}
-            deps.append(rocoto.add_dependency(dep_dict))
-        if self.options['do_atm']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_atmos_prod_#member#'}
-            deps.append(rocoto.add_dependency(dep_dict))
-        dependencies = rocoto.create_dependency(dep_condition='and', dep=deps)
-        extractvars_envars = self.envars.copy()
-        extractvars_dict = {'ENSMEM': '#member#',
-                            'MEMDIR': 'mem#member#',
-                            }
-        for key, value in extractvars_dict.items():
-            extractvars_envars.append(rocoto.create_envar(name=key, value=str(value)))
-
-        resources = self.get_resource('extractvars')
-        task_name = f'{self.run}_extractvars_mem#member#'
-        task_dict = {'task_name': task_name,
-                     'resources': resources,
-                     'dependency': dependencies,
-                     'envars': extractvars_envars,
-                     'cycledef': self.run,
-                     'command': f'{self.HOMEgfs}/dev/job_cards/rocoto/extractvars.sh',
-                     'job_name': f'{self.pslot}_{task_name}_@H',
-                     'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
-                     'maxtries': '&MAXTRIES;'
-                     }
-
-        member_var_dict = {'member': ' '.join([str(mem).zfill(3) for mem in range(0, self.nmem + 1)])}
-        member_metatask_dict = {'task_name': f'{self.run}_extractvars',
-                                'task_dict': task_dict,
-                                'var_dict': member_var_dict
-                                }
-
-        task = rocoto.create_task(member_metatask_dict)
-
-        return task
-
     def arch_vrfy(self):
         deps = []
         dep_dict = {'type': 'metatask', 'name': f'{self.run}_atmos_prod'}
@@ -546,9 +501,6 @@ class SFSTasks(Tasks):
                 deps.append(rocoto.add_dependency(dep_dict))
                 dep_dict = {'type': 'metatask', 'name': f'{self.run}_wave_post_bndpnt_bull'}
                 deps.append(rocoto.add_dependency(dep_dict))
-        if self.options['do_extractvars']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_extractvars'}
-            deps.append(rocoto.add_dependency(dep_dict))
         dependencies = rocoto.create_dependency(dep=deps, dep_condition='and')
 
         resources = self.get_resource('arch_vrfy')
@@ -590,9 +542,6 @@ class SFSTasks(Tasks):
                 deps.append(rocoto.add_dependency(dep_dict))
                 dep_dict = {'type': 'metatask', 'name': f'{self.run}_wave_post_bndpnt_bull'}
                 deps.append(rocoto.add_dependency(dep_dict))
-        if self.options['do_extractvars']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_extractvars'}
-            deps.append(rocoto.add_dependency(dep_dict))
         dependencies = rocoto.create_dependency(dep=deps, dep_condition='and')
 
         resources = self.get_resource('arch_tars')
@@ -658,9 +607,6 @@ class SFSTasks(Tasks):
                 deps.append(rocoto.add_dependency(dep_dict))
                 dep_dict = {'type': 'metatask', 'name': f'{self.run}_wave_post_bndpnt_bull'}
                 deps.append(rocoto.add_dependency(dep_dict))
-        if self.options['do_extractvars']:
-            dep_dict = {'type': 'metatask', 'name': f'{self.run}_extractvars'}
-            deps.append(rocoto.add_dependency(dep_dict))
         if self.options['do_archcom']:
             if self.options['do_globusarch']:
                 dep_dict = {'type': 'task', 'name': f'{self.run}_globus_arch'}
