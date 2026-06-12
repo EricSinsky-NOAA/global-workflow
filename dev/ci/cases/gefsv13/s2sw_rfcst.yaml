@@ -9,5 +9,7 @@ base:
   DO_GEMPAK: "NO"
   DO_AWIPS: "NO"
   HOMEDIR: '/lfs/h2/emc/ens/noscrub/${USER}'
+stage_ic:
+  ICSDIR: '/lfs/h2/emc/ens/noscrub/eric.sinsky/GEFS'
 ocn:
   MOM6_INTERP_ICS: "NO"
