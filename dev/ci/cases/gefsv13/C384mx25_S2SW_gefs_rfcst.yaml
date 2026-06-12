@@ -1,0 +1,28 @@
+experiment:
+  net: gefs
+  mode: forecast-only
+  pslot: {{ 'pslot' | getenv }}
+  app: S2SWA
+  resdetatmos: 384
+  resdetocean: 0.25
+  resensatmos: 384
+  nens: 4
+  interval: 168
+  start: cold
+  gefstype: gefs-offline
+  comroot: {{ 'RUNTESTS' | getenv }}/COMROOT
+  expdir: {{ 'RUNTESTS' | getenv }}/EXPDIR
+  idate: 2021032312
+  edate: 2021032312
+  yaml: {{ HOMEglobal }}/dev/ci/cases/gefsv13/s2sw_rfcst.yaml
+
+skip_ci_on_hosts:
+  - None
+
+workflow:
+  engine: rocoto
+  rocoto:
+    maxtries: 2
+    cyclethrottle: 3
+    taskthrottle: 25
+    verbosity: 2

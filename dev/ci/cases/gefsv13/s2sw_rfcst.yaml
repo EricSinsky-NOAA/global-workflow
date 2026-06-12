@@ -1,0 +1,13 @@
+defaults:
+  !INC {{ HOMEglobal }}/dev/parm/config/gefs/yaml/defaults.yaml
+base:
+  SFS_POST: "NO"
+  FHOUT_GFS: 6
+  USE_OCN_ENS_PERTURB_FILES: "NO"
+  USE_ATM_ENS_PERTURB_FILES: "NO"
+  DO_BUFRSND: "NO"
+  DO_GEMPAK: "NO"
+  DO_AWIPS: "NO"
+  HOMEDIR: '/lfs/h2/emc/ens/noscrub/${USER}'
+ocn:
+  MOM6_INTERP_ICS: "NO"
