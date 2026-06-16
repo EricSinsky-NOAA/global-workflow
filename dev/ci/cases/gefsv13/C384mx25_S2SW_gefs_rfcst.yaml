@@ -8,12 +8,12 @@ experiment:
   resensatmos: 384
   nens: 4
   interval: 168
-  start: warm
+  start: cold
   gefstype: gefs-offline
   comroot: {{ 'RUNTESTS' | getenv }}/COMROOT
   expdir: {{ 'RUNTESTS' | getenv }}/EXPDIR
-  idate: 2023122000
-  edate: 2023122000
+  idate: 2018010400
+  edate: 2018010400
   yaml: {{ HOMEglobal }}/dev/ci/cases/gefsv13/s2sw_rfcst.yaml
 
 skip_ci_on_hosts:

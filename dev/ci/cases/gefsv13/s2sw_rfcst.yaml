@@ -10,6 +10,6 @@ base:
   DO_AWIPS: "NO"
   HOMEDIR: '/lfs/h2/emc/ens/noscrub/${USER}'
 stage_ic:
-  ICSDIR: '/lfs/h2/emc/ens/noscrub/eric.sinsky/GEFS'
+  ICSDIR: '/lfs/h2/emc/ens/noscrub/Bing.Fu/v13rfcstnew/hpssic/test'
 ocn:
   MOM6_INTERP_ICS: "NO"
